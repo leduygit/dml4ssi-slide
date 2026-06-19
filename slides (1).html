@@ -445,14 +445,50 @@
      SLIDE 1 — TIÊU ĐỀ  (PHẦN 1)
 ═══════════════════════════════════════════════════════ -->
 <section class="title-slide">
+  <div class="logo-container" style="margin-bottom: 0.2em; text-align: center;">
+    <img src="assets/Logo-dai-hoc-khoa-hoc-tu-nhien.png" alt="Logo HCMUS" style="max-height: 200px; width: auto;" />
+  </div>
+  <p style="font-size: 0.58em; font-weight: 700; color: var(--blue-dark); text-transform: uppercase; letter-spacing: 1px; margin-top: 0px; margin-bottom: 0.3em;">
+    Môn học: Phân tích dữ liệu thông minh — Nhóm 10
+  </p>
   <h1>Double Machine Learning for Causal Inference under Shared-State Interference</h1>
   <div class="title-divider"></div>
-  <p class="subtitle">Ước lượng hiệu quả tác động đối xử khi các đơn vị tương tác với nhau qua thị trường,<br>hệ thống gợi ý, giá cả, hàng tồn kho, hay các trạng thái chung (shared states) khác.</p>
   <p class="authors">Chris Hays &nbsp;&amp;&nbsp; Manish Raghavan</p>
   <p class="affil">Massachusetts Institute of Technology</p>
-  <p class="date">15/04/2025 &nbsp;·&nbsp; arXiv:2504.08836v1</p>
+  <p class="date">Hội nghị: ICML 2025 &nbsp;·&nbsp; arXiv:2504.08836v1</p>
   <aside class="notes">
-    Hôm nay tôi xin trình bày bài báo của Chris Hays và Manish Raghavan đến từ MIT. Bài báo nghiên cứu suy luận nhân quả (causal inference) trong tình huống mà đối xử, hành vi hay kết quả của một đơn vị có thể ảnh hưởng đến các đơn vị đến sau thông qua một trạng thái chung (shared state). Đóng góp cốt lõi là một khung Double Machine Learning (DML) tổng quát vẫn cho suy luận thống kê hợp lệ về mặt tiệm cận dưới dạng nhiễu loạn này.
+    Hôm nay chúng em xin trình bày bài báo của Chris Hays và Manish Raghavan đến từ MIT. Bài báo nghiên cứu suy luận nhân quả (causal inference) trong tình huống mà đối xử, hành vi hay kết quả của một đơn vị có thể ảnh hưởng đến các đơn vị đến sau thông qua một trạng thái chung (shared state). Đóng góp cốt lõi là một khung Double Machine Learning (DML) tổng quát vẫn cho suy luận thống kê hợp lệ về mặt tiệm cận dưới dạng nhiễu loạn này.
+  </aside>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 1B — THÀNH VIÊN NHÓM
+═══════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-banner">Giới thiệu Nhóm</div>
+  <h2>Thành viên thực hiện — Nhóm 10</h2>
+  <h3 style="margin-top: 0.1em; margin-bottom: 0.5em;">Lớp: Phân tích dữ liệu thông minh</h3>
+  
+  <div class="platform-grid" style="margin-top: 0.6em; margin-bottom: 0.6em;">
+    <div class="platform-card" style="padding: 20px 10px;">
+      <div class="platform-icon" style="font-size: 2.2em; margin-bottom: 8px;">👤</div>
+      <div class="platform-name" style="font-size: 0.7em;">Lê Duy Anh</div>
+      <div class="platform-desc" style="font-size: 0.58em; font-weight: 600; color: var(--blue-mid);">22127012</div>
+    </div>
+    <div class="platform-card" style="padding: 20px 10px;">
+      <div class="platform-icon" style="font-size: 2.2em; margin-bottom: 8px;">👤</div>
+      <div class="platform-name" style="font-size: 0.7em;">Huỳnh Cao Tuấn Kiệt</div>
+      <div class="platform-desc" style="font-size: 0.58em; font-weight: 600; color: var(--blue-mid);">22127219</div>
+    </div>
+    <div class="platform-card" style="padding: 20px 10px;">
+      <div class="platform-icon" style="font-size: 2.2em; margin-bottom: 8px;">👤</div>
+      <div class="platform-name" style="font-size: 0.7em;">Võ Thành Nghĩa</div>
+      <div class="platform-desc" style="font-size: 0.58em; font-weight: 600; color: var(--blue-mid);">22127295</div>
+    </div>
+  </div>
+  
+  <aside class="notes">
+    Chào mừng thầy/cô và các bạn đến với phần thuyết trình của nhóm 10 về đề tài Double Machine Learning cho suy luận nhân quả dưới sự nhiễu loạn trạng thái chung. Chúng em là nhóm 10, học lớp Phân tích dữ liệu thông minh. Các thành viên gồm Lê Duy Anh, Huỳnh Cao Tuấn Kiệt và Võ Thành Nghĩa. Hôm nay nhóm em xin trình bày bài báo cáo khoa học này.
   </aside>
 </section>
 
@@ -808,13 +844,26 @@
   <p><strong>Bối cảnh:</strong> Dữ liệu quan sát (observational).<br>
      <strong>Mục tiêu (Tại sao dùng ADE thay vì ATE?):</strong> Cô lập tác động khi lật đối xử của <em>một</em> đơn vị, tránh sai lệch do tương tác chéo (SUTVA vi phạm), trong khi giữ nguyên phân phối đối xử của các đơn vị khác.</p>
 
-  <div class="theorem" style="margin-top:0.15em">
+  <div class="theorem" style="margin-top:0.3em">
     <div class="theorem-label">Đại lượng mục tiêu (ADE)</div>
     <div class="eq-block">\[ \psi^* = \frac{1}{T}\sum_{t=1}^T \mathbb{E}\bigl[Y_t(1,H_t) - Y_t(0,H_t)\bigr] \]</div>
   </div>
 
+  <div class="info-box" style="margin-top:0.3em">
+    Chúng ta đo lường tác động trực tiếp bằng cách so sánh hai kịch bản đối xử của đơn vị \(t\) khi trạng thái chung \(H_t\) tiến hóa bình thường dưới phân phối đối xử tự nhiên.
+  </div>
+
+  <aside class="notes">
+    ADE đo mức thay đổi kết quả khi đổi đối xử của CHÍNH đơn vị đó từ 0 sang 1, giữ nguyên phân phối đối xử của những người xung quanh. Đây là tác động trực tiếp vi mô, không phải tác động toàn hệ thống. Hãy nhấn mạnh: \(H_t\) (trạng thái chung) vừa ảnh hưởng kết quả \(Y_t\) vừa liên quan đối xử \(D_t\) nên nếu bỏ qua sẽ bị chệch.
+  </aside>
+</section>
+
+<section>
+  <div class="section-banner">PHẦN 4 · Ứng dụng mô hình thực tế</div>
+  <h2>Bộ ước lượng ADE (ADE Estimator)</h2>
   <p style="margin-top:0.15em"><strong>Cơ chế:</strong> dùng estimator AIPW (Augmented Inverse Probability Weighting, “bảo vệ kép”) có điều chỉnh theo trạng thái chung \(H_t\):</p>
-  <div class="eq-block compact-score">
+  
+  <div class="eq-block compact-score" style="margin-top:0.2em; margin-bottom:0.2em;">
     \[
     \begin{aligned}
     \phi(W_t;\eta)
@@ -835,7 +884,7 @@
     Giống AIPW chuẩn, nhưng mô hình kết quả \(f\) <strong>chứa \(H_t\)</strong> để kiểm soát gây nhiễu. Chi tiết mô hình cấu trúc &amp; Định lý 4.3: xem <em>Phụ lục</em>.
   </div>
   <aside class="notes">
-    Ví dụ: phát mã giảm giá cho riêng tài xế \(t\) thì doanh thu của họ đổi ra sao, giả định lượng tài xế xung quanh nhận mã không đổi. \(H_t\) (lượng xe trống) vừa ảnh hưởng \(Y_t\) vừa liên quan \(D_t\) → nếu bỏ qua sẽ chệch. Nhấn mạnh \(H_t\) nằm trong \(f\). Tuyệt đối KHÔNG coi \(H_t\) như covariate i.i.d. rồi ném vào DML chuẩn — phần mô phỏng sẽ cho bằng chứng.
+    Để thực hiện ước lượng, ta dùng bộ ước lượng AIPW có sửa sai. Thành phần plug-in đo chênh lệch của hàm kết quả f được học bằng ML. Thành phần debiasing sửa sai cho f bằng propensity score m(X_t). Hãy nhấn mạnh: mô hình kết quả f bắt buộc phải nhận trạng thái chung H_t làm đầu vào.
   </aside>
 </section>
 
@@ -995,18 +1044,54 @@
 <!-- ═══════════════════════════════════════════════════════
      SLIDE 18 — Q&A  (PHẦN 6, MỚI)
 ═══════════════════════════════════════════════════════ -->
-<section style="text-align:center">
-  <h2 style="text-align:left">Hỏi &amp; Đáp (Q&amp;A)</h2>
-  <div class="theorem" style="text-align:left; margin-top:0.3em">
-    <div class="theorem-label">Cảm ơn quý vị đã lắng nghe</div>
-    <p style="font-size:0.85em; line-height:1.6">Rất mong nhận được câu hỏi, nhận xét và góp ý từ quý vị.</p>
+<section>
+  <div class="section-banner">KẾT THÚC BÀI THUYẾT TRÌNH</div>
+  <h2>Hỏi &amp; Đáp (Q&amp;A)</h2>
+  
+  <div class="two-col" style="margin-top: 0.6em; gap: 24px;">
+    <!-- Cột trái: Lời cảm ơn -->
+    <div class="platform-card" style="padding: 20px 20px; text-align: center; background: var(--blue-light); border-left: 5px solid var(--blue-mid); align-self: stretch; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px;">
+      <div style="font-size: 3.5em; line-height: 1; margin: 0;">🙏</div>
+      <h3 style="margin: 0; color: var(--blue-dark); font-size: 1.45em; font-weight: 700; text-align: center;">Thanks for watching!</h3>
+    </div>
+    
+    <!-- Cột phải: Thông tin Nhóm thực hiện -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 0.58em; font-weight: 700; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">
+        Nhóm thực hiện — Nhóm 10
+      </div>
+      
+      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
+        <span style="font-size: 1.2em;">👤</span>
+        <div>
+          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Lê Duy Anh</div>
+          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127012</div>
+        </div>
+      </div>
+      
+      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
+        <span style="font-size: 1.2em;">👤</span>
+        <div>
+          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Huỳnh Cao Tuấn Kiệt</div>
+          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127219</div>
+        </div>
+      </div>
+      
+      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
+        <span style="font-size: 1.2em;">👤</span>
+        <div>
+          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Võ Thành Nghĩa</div>
+          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127295</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="info-box" style="margin-top:0.3em; text-align:left">
-    <strong>DML4SSI:</strong> khi nhiễu loạn chảy qua một trạng thái chung quan sát được, ta vẫn có suy luận nhân quả hợp lệ bằng cách mô hình hóa sự phụ thuộc và ước lượng phương sai đúng cách.
-  </div>
   <aside class="notes">
-    Câu hỏi có thể gặp — "Tại sao không dùng K-fold Cross-fitting thông thường?" → "Vì trong SSI, \(Y_t\) phụ thuộc \(H_{t-1}\); K-fold thông thường làm xáo trộn thứ tự thời gian, phá vỡ quan hệ Markov, dẫn đến ước lượng sai lệch phương sai." Một câu hỏi khác có thể gặp: "Vì sao bộ ước lượng Switchback cũ phải bỏ dữ liệu mà DML4SSI thì giữ được?" → vì DML dùng Regression Adjustment để chủ động trừ nhiễu tích lũy của \(m\) bước trước, thay vì đợi hệ thống tự hết nhiễu.
+    Nhóm em xin chân thành cảm ơn thầy cô và các bạn đã lắng nghe. Sau đây là phần Hỏi & Đáp (Q&A).
+    Một số câu hỏi có thể gặp và gợi ý trả lời:
+    1. "Tại sao không dùng K-fold Cross-fitting thông thường?" -> "Vì trong SSI, Y_t phụ thuộc H_{t-1}; K-fold thông thường làm xáo trộn thứ tự thời gian, phá vỡ quan hệ Markov, dẫn đến ước lượng sai lệch phương sai."
+    2. "Vì sao bộ ước lượng Switchback cũ phải bỏ dữ liệu mà DML4SSI thì giữ được?" -> vì DML dùng Regression Adjustment để chủ động trừ nhiễu tích lũy của m bước trước, thay vì đợi hệ thống tự hết nhiễu.
   </aside>
 </section>
 
@@ -1526,7 +1611,7 @@
 
   Reveal.initialize({
     hash: true,
-    slideNumber: 'c/t',
+    slideNumber: 'c',
     transition: 'fade',
     transitionSpeed: 'fast',
     controls: true,
