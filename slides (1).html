@@ -1543,19 +1543,19 @@
   <p class="backup-label">Phụ lục · Thiết lập mô phỏng</p>
   <h2>Thiết lập mô phỏng cho ADE (Section 4)</h2>
   
-  <div class="platform-card" style="padding: 18px 24px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 900px; margin: 0 auto;">
-    <ul style="margin: 0; padding-left: 20px; font-size: 0.65em; line-height: 1.45; color: var(--gray-text);">
-      <li style="margin-bottom: 6px;"><strong>Thông số mẫu:</strong> Cỡ mẫu mỗi lần chạy \(T = 1,000\), số lượng hiệp biến (covariates) \(d_X = 10\).</li>
-      <li style="margin-bottom: 6px;"><strong>Các hiệp biến:</strong> \(X_{t,i} \sim \mathcal{N}(1, 1)\) i.i.d. cho mỗi thành phần \(i = 1, \dots, d_X\).</li>
-      <li style="margin-bottom: 6px;"><strong>Chính sách đối xử (Propensity Score):</strong> \(D_t \sim \text{Ber}(m^*(X_t))\) với \(m^*(X_t) = \min\{\max\{0.1, X_{t,1}\}, 0.9\}\) (sử dụng cắt tỉa propensity score với \(\zeta = 0.1\)).</li>
-      <li style="margin-bottom: 6px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
-        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+  <div class="platform-card" style="padding: 10px 18px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 880px; margin: 0 auto;">
+    <ul style="margin: 0; padding-left: 20px; font-size: 0.92em; line-height: 1.35; color: var(--gray-text);">
+      <li style="margin-bottom: 4px;"><strong>Thông số mẫu:</strong> Cỡ mẫu mỗi lần chạy \(T = 1,000\), số lượng hiệp biến (covariates) \(d_X = 10\).</li>
+      <li style="margin-bottom: 4px;"><strong>Các hiệp biến:</strong> \(X_{t,i} \sim \mathcal{N}(1, 1)\) i.i.d. cho mỗi thành phần \(i = 1, \dots, d_X\).</li>
+      <li style="margin-bottom: 4px;"><strong>Chính sách đối xử (Propensity Score):</strong> \(D_t \sim \text{Ber}(m^*(X_t))\) với \(m^*(X_t) = \min\{\max\{0.1, X_{t,1}\}, 0.9\}\) (sử dụng cắt tỉa propensity score với \(\zeta = 0.1\)).</li>
+      <li style="margin-bottom: 4px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
+        <div style="font-size: 0.9em; margin: 2px 0; text-align: center;">
           \[ Y_t(D_t, H_t) = \sin(2 \pi X_{t,1}) + 2D_t + 2H_t D_t - 1 + \tilde{Y}_t \]
         </div>
         trong đó nhiễu kết quả \(\tilde{Y}_t \sim \mathcal{N}(0, 0.1)\) i.i.d.
       </li>
-      <li style="margin-bottom: 6px;"><strong>Tiến hóa của trạng thái chung (Shared-State AR(1)):</strong>
-        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+      <li style="margin-bottom: 4px;"><strong>Tiến hóa của trạng thái chung (Shared-State AR(1)):</strong>
+        <div style="font-size: 0.9em; margin: 2px 0; text-align: center;">
           \[ H_t(W_{t-1}) = 0.75(H_{t-1} - 1) + 1 + \tilde{H}_t \]
         </div>
         trong đó nhiễu trạng thái \(\tilde{H}_t \sim \mathcal{N}(0, 1)\) i.i.d.
@@ -1576,22 +1576,22 @@
   <p class="backup-label">Phụ lục · Thiết lập mô phỏng</p>
   <h2>Thiết lập mô phỏng cho GATE (Section 5)</h2>
   
-  <div class="platform-card" style="padding: 18px 24px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 900px; margin: 0 auto;">
-    <ul style="margin: 0; padding-left: 20px; font-size: 0.65em; line-height: 1.45; color: var(--gray-text);">
-      <li style="margin-bottom: 6px;"><strong>Thông số mẫu:</strong> Số lượng hiệp biến \(d_X = 1\), hiệp biến \(X_t \sim \text{Unif}([0, 1])\).</li>
-      <li style="margin-bottom: 6px;"><strong>Thiết kế thử nghiệm (Switchback):</strong> Sử dụng cơ chế đổi trạng thái thử nghiệm luân phiên với chu kỳ chuyển đổi \(\ell = 2m = 10\) bước thời gian.</li>
-      <li style="margin-bottom: 6px;"><strong>Trạng thái chung (Shared-State m-dependent):</strong> Được định nghĩa là chuỗi lịch sử \(m = 5\) bước trước của đối xử và hiệp biến:
-        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+  <div class="platform-card" style="padding: 10px 18px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 880px; margin: 0 auto;">
+    <ul style="margin: 0; padding-left: 20px; font-size: 0.92em; line-height: 1.35; color: var(--gray-text);">
+      <li style="margin-bottom: 4px;"><strong>Thông số mẫu:</strong> Số lượng hiệp biến \(d_X = 1\), hiệp biến \(X_t \sim \text{Unif}([0, 1])\).</li>
+      <li style="margin-bottom: 4px;"><strong>Thiết kế thử nghiệm (Switchback):</strong> Sử dụng cơ chế đổi trạng thái thử nghiệm luân phiên với chu kỳ chuyển đổi \(\ell = 2m = 10\) bước thời gian.</li>
+      <li style="margin-bottom: 4px;"><strong>Trạng thái chung (Shared-State m-dependent):</strong> Được định nghĩa là chuỗi lịch sử \(m = 5\) bước trước của đối xử và hiệp biến:
+        <div style="font-size: 0.9em; margin: 2px 0; text-align: center;">
           \[ H_t = (X_{t-m:t-1},\, D_{t-m:t-1}) \]
         </div>
       </li>
-      <li style="margin-bottom: 6px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
-        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+      <li style="margin-bottom: 4px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
+        <div style="font-size: 0.9em; margin: 2px 0; text-align: center;">
           \[ Y_t(D_t, H_t) = \sin(2 \pi X_{t,1}) + 2D_t + 2\sum_{i \in \lfloor m/6 \rfloor} e^{-H_{t, 6i}/3} - 1 + \tilde{Y}_t \]
         </div>
         trong đó nhiễu kết quả \(\tilde{Y}_t \sim \mathcal{N}(0, 0.1)\) i.i.d.
       </li>
-      <li style="margin-bottom: 6px;"><strong>Chính sách phân bổ đối xử:</strong> Propensity score thực tế được gán tương tự mô phỏng ADE với xác suất cắt tỉa \(\zeta = 0.1\).</li>
+      <li style="margin-bottom: 4px;"><strong>Chính sách phân bổ đối xử:</strong> Propensity score thực tế được gán tương tự mô phỏng ADE với xác suất cắt tỉa \(\zeta = 0.1\).</li>
       <li><strong>Mô hình học máy phụ trợ:</strong> Ước lượng hàm phụ \(\hat{f}\) bằng Random Forest (mô hình mặc định), huấn luyện trên tập dữ liệu phụ trợ độc lập có kích thước \(T\).</li>
     </ul>
   </div>
