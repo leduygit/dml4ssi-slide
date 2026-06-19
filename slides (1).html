@@ -215,6 +215,12 @@
     }
     .badge.good { background: #dcfce7; color: #166534; }
     .badge.bad  { background: #fee2e2; color: #991b1b; }
+    .badge.dml { background: #fee2e2; color: #991b1b; }
+    .badge.plugin { background: #dcfce7; color: #166534; }
+    .badge.ht { background: #dbeafe; color: #1e40af; }
+    .badge.naivedml { background: #f3e8ff; color: #581c87; }
+    .badge.ssac { background: #ffedd5; color: #c2410c; }
+    .badge.sb { background: #fef3c7; color: #92400e; }
 
     /* ── Equations ── */
     .reveal .MathJax { font-size: 0.82em !important; }
@@ -236,21 +242,41 @@
       margin-bottom: 4px;
     }
 
-    /* ── Slide number ── */
+    /* ── Slide number & Controls ── */
+    .reveal .controls {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      bottom: 24px !important;
+      right: 24px !important;
+      width: auto !important;
+      height: 38px !important;
+      gap: 4px !important;
+      color: var(--blue-mid) !important;
+    }
+    .reveal .controls button {
+      position: static !important;
+      width: 28px !important;
+      height: 28px !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
     .reveal .slide-number {
-      background: var(--blue-mid);
-      color: white;
-      font-size: 11px;
-      border-radius: 4px;
-      padding: 2px 7px;
+      position: static !important;
+      background: transparent !important;
+      color: var(--blue-dark) !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      padding: 0 6px !important;
+      line-height: 1 !important;
     }
 
     /* ── Progress bar ── */
     .reveal .progress { background: var(--blue-light); }
     .reveal .progress span { background: var(--blue-mid); }
-
-    /* ── Controls ── */
-    .reveal .controls { color: var(--blue-mid); }
 
     /* ── Platform cards (Slide 2) ── */
     .platform-grid {
@@ -467,7 +493,7 @@
 <section>
   <div class="section-banner">Giới thiệu Nhóm</div>
   <h2>Thành viên thực hiện — Nhóm 10</h2>
-  <h3 style="margin-top: 0.1em; margin-bottom: 0.5em;">Lớp: Phân tích dữ liệu thông minh</h3>
+  <h3 style="margin-top: 0.1em; margin-bottom: 0.4em;">Lớp: Phân tích dữ liệu thông minh</h3>
   
   <div class="platform-grid" style="margin-top: 0.6em; margin-bottom: 0.6em;">
     <div class="platform-card" style="padding: 20px 10px;">
@@ -842,15 +868,15 @@
   <div class="section-banner">PHẦN 4 · Ứng dụng mô hình thực tế</div>
   <h2>Ứng dụng 1 — Tác động Trực tiếp Trung bình (ADE)</h2>
   <p><strong>Bối cảnh:</strong> Dữ liệu quan sát (observational).<br>
-     <strong>Mục tiêu (Tại sao dùng ADE thay vì ATE?):</strong> Cô lập tác động khi lật đối xử của <em>một</em> đơn vị, tránh sai lệch do tương tác chéo (SUTVA vi phạm), trong khi giữ nguyên phân phối đối xử của các đơn vị khác.</p>
+     <strong>Mục tiêu:</strong> Cô lập tác động khi lật đối xử của <em>một</em> đơn vị, tránh sai lệch do tương tác chéo (SUTVA vi phạm), trong khi giữ nguyên phân phối đối xử của các đơn vị khác.</p>
 
   <div class="theorem" style="margin-top:0.3em">
     <div class="theorem-label">Đại lượng mục tiêu (ADE)</div>
     <div class="eq-block">\[ \psi^* = \frac{1}{T}\sum_{t=1}^T \mathbb{E}\bigl[Y_t(1,H_t) - Y_t(0,H_t)\bigr] \]</div>
   </div>
 
-  <div class="info-box" style="margin-top:0.3em">
-    Chúng ta đo lường tác động trực tiếp bằng cách so sánh hai kịch bản đối xử của đơn vị \(t\) khi trạng thái chung \(H_t\) tiến hóa bình thường dưới phân phối đối xử tự nhiên.
+  <div class="info-box" style="margin-top:0.3em; border-left-color: var(--blue-mid); background: var(--blue-light); padding: 8px 12px; font-size: 0.58em; line-height: 1.4; color: var(--blue-dark);">
+    <strong>Ý nghĩa:</strong> Đo lường sự thay đổi kết quả của đơn vị \(t\) khi nhận đối xử (1 so với 0), trong khi giữ cố định trạng thái chung \(H_t\) (đại diện cho tương tác chéo từ các cá thể khác và quá khứ) theo tiến trình tiến hóa tự nhiên của hệ thống.
   </div>
 
   <aside class="notes">
@@ -861,7 +887,7 @@
 <section>
   <div class="section-banner">PHẦN 4 · Ứng dụng mô hình thực tế</div>
   <h2>Bộ ước lượng ADE (ADE Estimator)</h2>
-  <p style="margin-top:0.15em"><strong>Cơ chế:</strong> dùng estimator AIPW (Augmented Inverse Probability Weighting, “bảo vệ kép”) có điều chỉnh theo trạng thái chung \(H_t\):</p>
+  <p style="margin-top:0.15em"><strong>Cơ chế:</strong> dùng bộ ước lượng \(\hat{\psi}_{\text{ADE}} = \frac{1}{T} \sum_{t=1}^T \phi(W_t; \eta)\) với estimator AIPW (Augmented Inverse Probability Weighting) có điều chỉnh theo \(H_t\):</p>
   
   <div class="eq-block compact-score" style="margin-top:0.2em; margin-bottom:0.2em;">
     \[
@@ -881,7 +907,7 @@
   <div class="info-box" style="margin-top:0.1em">
     <strong>Plug-in:</strong> dùng ML dự đoán trực tiếp chênh lệch kết quả.<br>
     <strong>Debiasing:</strong> dùng \(m(X_t)\) để đánh trọng số lại phần dư và sửa lỗi cho mô hình ML.<br>
-    Giống AIPW chuẩn, nhưng mô hình kết quả \(f\) <strong>chứa \(H_t\)</strong> để kiểm soát gây nhiễu. Chi tiết mô hình cấu trúc &amp; Định lý 4.3: xem <em>Phụ lục</em>.
+    Giống AIPW chuẩn, nhưng mô hình kết quả \(f\) <strong>chứa \(H_t\)</strong> để kiểm soát gây nhiễu.
   </div>
   <aside class="notes">
     Để thực hiện ước lượng, ta dùng bộ ước lượng AIPW có sửa sai. Thành phần plug-in đo chênh lệch của hàm kết quả f được học bằng ML. Thành phần debiasing sửa sai cho f bằng propensity score m(X_t). Hãy nhấn mạnh: mô hình kết quả f bắt buộc phải nhận trạng thái chung H_t làm đầu vào.
@@ -892,8 +918,9 @@
      SLIDE 13 — ỨNG DỤNG 2: SWITCHBACK / GATE  (PHẦN 4, GỘP)
 ═══════════════════════════════════════════════════════ -->
 <section>
+  <div class="section-banner">PHẦN 4 · Ứng dụng mô hình thực tế</div>
   <h2>Ứng dụng 2 — Thử nghiệm Switchback cho Tác động Toàn cục (GATE)</h2>
-  <p><strong>Bối cảnh:</strong> Thử nghiệm Switchback (bật/tắt theo các khối thời gian kế tiếp), nhiễu \(m\)-phụ thuộc.<br>
+  <p><strong>Bối cảnh:</strong> Thử nghiệm Switchback (bật/tắt theo các khối thời gian kế tiếp).<br>
      <strong>Mục tiêu:</strong> so sánh khi <em>tất cả</em> được đối xử vs <em>tất cả</em> bị kiểm soát — bao gồm tác động lan tỏa.</p>
 
   <div class="theorem" style="margin-top:0.2em">
@@ -904,10 +931,32 @@
   </div>
 
   <div class="info-box" style="margin-top:0.2em">
-    <strong>Cơ chế:</strong> bộ ước lượng DML kết hợp <strong>Regression Adjustment</strong> (dùng ML dự đoán kết quả từ covariate + trạng thái chung quá khứ, rồi "trừ nhiễu") giúp <strong>giảm đáng kể phương sai</strong> so với switchback truyền thống → tiết kiệm cỡ mẫu. Chi tiết hàm score, cửa sổ thuần nhất &amp; Định lý 5.3: xem <em>Phụ lục</em>.
+    <strong>Trạng thái chung trong Switchback:</strong> Để biểu diễn nhiễu lan tỏa kéo dài tối đa \(m\) bước, trạng thái chung \(H_t\) được định nghĩa là chuỗi hành động đối xử và covariate trong \(m\) bước trước đó:
+    \[ H_t = \text{vec}(D_{t-m:t-1},\, X_{t-m:t-1}) \]
   </div>
   <aside class="notes">
     GATE là tác động vĩ mô lên toàn nền tảng — doanh nghiệp cực kỳ quan tâm. Ví dụ: Grab đổi thuật toán định giá cho toàn thành phố thì tổng doanh thu tăng bao nhiêu; không thể chia đôi tài xế cùng khu vực vì họ cạnh tranh, làm nhiễu lẫn nhau qua giá thị trường. Switchback: bật 30' / tắt 30' luân phiên, phù hợp khi nhiễu chỉ kéo dài tối đa \(m\) bước. Nhấn mạnh từ khóa "Giảm phương sai (Variance Reduction)".
+  </aside>
+</section>
+
+<section>
+  <div class="section-banner">PHẦN 4 · Ứng dụng mô hình thực tế</div>
+  <h2>Bộ ước lượng GATE trong Switchback (GATE Estimator)</h2>
+  <p style="margin-top:0.1em"><strong>Cơ chế:</strong> dùng bộ ước lượng \(\hat{\psi}_{\text{GATE}} = \frac{1}{T} \sum_{t=1}^T \phi(W_t; \eta)\) với hàm score DML:</p>
+
+  <div class="eq-block compact-score" style="margin-top:0.2em; margin-bottom:0.2em; font-size:0.68em;">
+    \[
+    \phi(W_t;\eta) = \underbrace{f(1,X_t,H_t(1)) - f(0,X_t,H_t(0))}_{\text{Plug-in: Hồi quy hiệu chỉnh (Regression Adjustment)}} + \underbrace{\Bigl(\tfrac{\mathbf{1}\{D_{t-m:t}=\mathbf{1}\}}{\pi^*(\cdot,1)} - \tfrac{\mathbf{1}\{D_{t-m:t}=\mathbf{0}\}}{\pi^*(\cdot,0)}\Bigr) \cdot\,(Y_t - f(D_t,X_t,H_t))}_{\text{Debiasing: Sửa sai hoạt động ở cửa sổ thuần nhất}}
+    \]
+  </div>
+
+  <div class="info-box" style="margin-top:0.1em">
+    <strong>Plug-in (Regression Adjustment):</strong> Dùng ML dự đoán kết quả tiềm năng, hoạt động ở mọi bước thời gian để <strong>giảm đáng kể phương sai</strong>.<br>
+    <strong>Debiasing:</strong> Chỉ kích hoạt khi chuỗi đối xử đạt trạng thái thuần nhất trong ít nhất \(m+1\) bước liên tiếp (cùng tất cả là đối xử hoặc kiểm soát).
+  </div>
+
+  <aside class="notes">
+    Trong switchback, bộ ước lượng kết hợp hồi quy hiệu chỉnh Regression Adjustment giúp giảm đáng kể phương sai. Số hạng plug-in hoạt động ở mọi bước thời gian, còn số hạng sửa sai debiasing chỉ kích hoạt khi chuỗi đối xử đạt trạng thái thuần nhất (homogeneous window) trong ít nhất m+1 bước. Điều này giúp tận dụng toàn bộ dữ liệu thay vì bỏ đi dữ liệu ở giai đoạn chuyển giao như phương pháp truyền thống.
   </aside>
 </section>
 
@@ -917,32 +966,35 @@
 <section>
   <div class="section-banner">PHẦN 5 · Kết quả Mô phỏng Thực nghiệm</div>
   <h2>Thực nghiệm cho ADE (Hình 2 &amp; Hình 3)</h2>
-  <p><strong>Chú giải nhanh:</strong> Hình 2 có 4 đường ước lượng; Hình 3 bổ sung SSAC và thêm panel độ rộng. Trong hai hình dưới đây: DML4SSI (đề xuất), Plug-in, HT, Naive DML và SSAC.</p>
-  <div class="legend-strip">
-    <span class="legend-chip"><span class="legend-swatch" style="background:#16a34a"></span>DML4SSI</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#ef4444"></span>Plug-in</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#f87171"></span>HT</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#dc2626"></span>Naive DML</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#f59e0b"></span>SSAC (Hình 3)</span>
+  <p style="font-size: 0.58em; margin-top: 0.25em; margin-bottom: 0.4em; line-height: 1.4; color: var(--gray-text);">
+    <strong>Mô tả mô phỏng:</strong> Hình 2 thể hiện độ lệch của các điểm ước lượng; Hình 3 thể hiện độ phủ (Coverage) và độ rộng (Width) của khoảng tin cậy 95% dưới các cỡ mẫu \(T\) khác nhau.
+  </p>
+  
+  <div class="legend-strip" style="justify-content: center; margin-bottom: 12px;">
+    <span class="legend-chip"><span class="legend-swatch" style="background:#e31a1c"></span>DML4SSI</span>
+    <span class="legend-chip"><span class="legend-swatch" style="background:#4dae49"></span>Plug-in</span>
+    <span class="legend-chip"><span class="legend-swatch" style="background:#377db8"></span>HT</span>
+    <span class="legend-chip"><span class="legend-swatch" style="background:#974ea2"></span>Naive DML</span>
+    <span class="legend-chip"><span class="legend-swatch" style="background:#ff7e00"></span>SSAC</span>
   </div>
 
   <div class="paper-figure-row">
     <div>
-      <div class="chart-title">Hình 2 — Ước lượng ADE</div>
-      <div class="paper-figure">
+      <div class="chart-title">Hình 2 — Ước lượng điểm ADE (Độ lệch / Bias)</div>
+      <div class="paper-figure" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 8px;">
         <img src="assets/figs/direct_effect.svg" alt="Hình 2 trong bài báo: Estimates of the average direct effect" />
       </div>
     </div>
     <div>
-      <div class="chart-title">Hình 3 — Độ phủ và độ rộng KTC theo cỡ mẫu</div>
+      <div class="chart-title">Hình 3 — Khoảng tin cậy ADE (Độ phủ &amp; Độ rộng)</div>
       <div class="paper-figure-stack">
         <div class="paper-mini-row">
-          <div class="paper-mini">
-            <div class="paper-mini-label">Coverage</div>
+          <div class="paper-mini" style="box-shadow: 0 4px 10px rgba(0,0,0,0.04); border-radius: 8px;">
+            <div class="paper-mini-label">Coverage (Yêu cầu: 95%)</div>
             <img src="assets/figs/coverage_vs_sample_size.svg" alt="Hình 3 trong bài báo: Coverage rates of 95% confidence intervals for the ADE" />
           </div>
-          <div class="paper-mini">
-            <div class="paper-mini-label">Width</div>
+          <div class="paper-mini" style="box-shadow: 0 4px 10px rgba(0,0,0,0.04); border-radius: 8px;">
+            <div class="paper-mini-label">Width (Độ rộng KTC)</div>
             <img src="assets/figs/width_vs_sample_size.svg" alt="Hình 3 trong bài báo: Widths of 95% confidence intervals for the ADE" />
           </div>
         </div>
@@ -950,8 +1002,15 @@
     </div>
   </div>
 
-  <div class="info-box" style="margin-top:0.2em">
-    Hai kiểu thất bại: <strong>(1) chệch (bias)</strong> — bỏ qua tác động trạng thái chung làm lệch ước lượng điểm; <strong>(2) KTC không hợp lệ</strong> — bỏ qua hiệp phương sai theo thời gian làm đánh giá sai phương sai.
+  <div class="info-box" style="margin-top:0.35em; border-left-color: var(--blue-mid); background: var(--blue-light); padding: 8px 12px;">
+    <ul style="margin: 0 0 0 15px; padding: 0; list-style-type: disc;">
+      <li style="font-size: 0.58em; line-height: 1.4; color: var(--blue-dark); margin-bottom: 2px;">
+        <strong>Sai lệch điểm ước lượng (Hình 2):</strong> Bỏ qua trạng thái chung \(H_t\) (<span class="badge plugin">Plug-in</span>, <span class="badge ht">HT</span>, <span class="badge naivedml">Naive DML</span>) dẫn đến ước lượng điểm bị chệch nặng do không kiểm soát được nhiễu.
+      </li>
+      <li style="font-size: 0.58em; line-height: 1.4; color: var(--blue-dark); margin-bottom: 0px;">
+        <strong>Sai lệch khoảng tin cậy (Hình 3):</strong> Bỏ qua hiệp phương sai chuỗi thời gian (<span class="badge ssac">SSAC</span>) tuy ước lượng không chệch nhưng đánh giá thấp phương sai, làm KTC quá hẹp và độ phủ thực tế chỉ đạt 60–70% thay vì 95%. Chỉ <span class="badge dml">DML4SSI</span> đạt độ phủ chuẩn 95%.
+      </li>
+    </ul>
   </div>
   <aside class="notes">
     Mô phỏng 50.000 lần. Các phương pháp ngây thơ (Horvitz-Thompson, Naive DML loại bỏ \(H_t\), Naive plug-in) bị chệch nặng; chỉ DML4SSI ôm trọn vạch 0. Điểm nhấn học thuật: đường SSAC (coi \(H_t\) như covariate i.i.d.) tuy không chệch nhưng đánh giá thấp phương sai → KTC quá hẹp, độ phủ chỉ ~60–70% và không bao giờ đạt 95% dù tăng \(T\). Hãy dùng con trỏ chỉ rõ từng màu để khán giả không loạn mắt.
@@ -963,7 +1022,7 @@
 ═══════════════════════════════════════════════════════ -->
 <section>
   <h2>Thực nghiệm cho GATE trong Switchback (Hình 4 &amp; Hình 5)</h2>
-  <p><strong>Lưu ý:</strong> Hình 4 chỉ hiển thị 4 đường ước lượng; SSAC xuất hiện ở Hình 3 của slide trước. Hình 5 so sánh DML4SSI với Switchback HT chuẩn.</p>
+  <p style="font-size: 0.58em; margin-top: 0.25em; margin-bottom: 0.4em; line-height: 1.4; color: var(--gray-text);"><strong>Lưu ý:</strong> Hình 4 chỉ hiển thị 4 đường ước lượng; <span class="badge ssac">SSAC</span> xuất hiện ở Hình 3 của slide trước. Hình 5 so sánh <span class="badge dml">DML4SSI</span> với <span class="badge sb">SB</span>.</p>
 
   <div class="paper-figure-row">
     <div>
@@ -980,11 +1039,56 @@
     </div>
   </div>
 
-  <div class="info-box" style="margin-top:0.2em">
-    Switchback HT chuẩn (Bojinov và cộng sự, 2022) không chệch nhưng KTC <strong>rộng gấp 3–7,5 lần</strong>. DML4SSI đạt độ chính tâm tương đương với phương sai thấp hơn rất nhiều nhờ tận dụng thông tin covariate và trạng thái chung.
+  <div class="info-box" style="margin-top:0.35em; border-left-color: var(--blue-mid); background: var(--blue-light); padding: 8px 12px; font-size: 0.58em; line-height: 1.4; color: var(--blue-dark);">
+    <span class="badge sb">SB</span> (Bojinov và cộng sự, 2022) không chệch nhưng KTC <strong>rộng gấp 3–7,5 lần</strong>. <span class="badge dml">DML4SSI</span> đạt độ chính tâm tương đương với phương sai thấp hơn rất nhiều nhờ tận dụng thông tin covariate và trạng thái chung.
   </div>
   <aside class="notes">
-    "Khoảnh khắc tỏa sáng" của bài báo. So với bộ ước lượng Switchback HT chuẩn (màu xám): cả hai đều không chệch (cùng ở vạch 0) nhưng phân phối DML4SSI nhọn hơn hẳn → phương sai thấp hơn nhiều. Hai lý do: (1) ML giải thích biến động qua covariate + trạng thái chung; (2) phương pháp cũ phải vứt bỏ \(m\) bước đầu mỗi lần bật/tắt, còn DML4SSI tận dụng toàn bộ dữ liệu. Ý nghĩa kinh tế: rút ngắn thời gian A/B xuống 1/2–1/3 mà vẫn cùng độ chính xác.
+    "Khoảnh khắc tỏa sáng" của bài báo. So với bộ ước lượng SB (màu xám): cả hai đều không chệch (cùng ở vạch 0) nhưng phân phối DML4SSI nhọn hơn hẳn → phương sai thấp hơn nhiều. Hai lý do: (1) ML giải thích biến động qua covariate + trạng thái chung; (2) phương pháp cũ phải vứt bỏ \(m\) bước đầu mỗi lần bật/tắt, còn DML4SSI tận dụng toàn bộ dữ liệu. Ý nghĩa kinh tế: rút ngắn thời gian A/B xuống 1/2–1/3 mà vẫn cùng độ chính xác.
+  </aside>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 15B — MÔ PHỎNG SWITCHBACK: KHOẢNG TIN CẬY (HÌNH 6)
+═══════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-banner">PHẦN 5 · Kết quả Mô phỏng Thực nghiệm</div>
+  <h2>Độ phủ &amp; Độ rộng KTC cho GATE (Hình 6)</h2>
+  
+  <div class="two-col" style="margin-top: 0.2em; gap: 20px;">
+    <!-- Cột trái: Hình ảnh từ paper -->
+    <div>
+      <div class="chart-title">Hình 6 — Độ phủ và độ rộng KTC của GATE theo cỡ mẫu</div>
+      <div class="paper-figure" style="min-height: 260px; background: white; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: box-shadow 0.2s ease;">
+        <img src="assets/figs/Screenshot%202026-06-19%20235228.png" alt="Hình 6 trong bài báo: Coverage rates and widths of 95% confidence intervals for the GATE" style="max-height: 250px; width: 100%; object-fit: contain; border-radius: 4px;" />
+      </div>
+    </div>
+    
+    <!-- Cột phải: Nội dung phân tích -->
+    <div>
+      <p style="font-size: 0.58em; font-weight: 700; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Phân tích Khoảng tin cậy (KTC):</p>
+      <ul style="margin-top: 0.2em;">
+        <li style="margin-bottom: 0.35em;">
+          <strong>Độ phủ (Coverage):</strong> 
+          Phương pháp đề xuất <span class="badge dml">DML4SSI</span> nhanh chóng hội tụ về mức <strong>95%</strong> khi \(T\) tăng. 
+          Ngược lại, phương pháp <span class="badge sb">SB</span> đạt độ phủ bảo thủ <strong>100%</strong> do ước lượng phương sai quá lớn.
+        </li>
+        <li style="margin-bottom: 0.35em;">
+          <strong>Độ rộng (Width):</strong> 
+          KTC của <span class="badge sb">SB</span> truyền thống <strong>rộng gấp 3 đến 7.5 lần</strong> so với <span class="badge dml">DML4SSI</span>.
+        </li>
+      </ul>
+      
+      <div class="info-box" style="margin-top:0.4em; border-left-color: var(--blue-mid); background: var(--blue-light); padding: 8px 12px; font-size: 0.58em; line-height: 1.4; color: var(--blue-dark);">
+        <strong>Ý nghĩa kinh tế:</strong> Khả năng thu hẹp khoảng tin cậy vượt trội của <span class="badge dml">DML4SSI</span> cho phép doanh nghiệp <strong>tiết kiệm cỡ mẫu hoặc thời gian chạy A/B test</strong> để đưa ra quyết định kinh doanh với cùng mức độ tin cậy.
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Hãy phân tích hệ quả của việc giảm phương sai lên Khoảng tin cậy (KTC) ở Hình 6:
+    1. Về Độ phủ (Coverage): DML4SSI (màu đỏ) nhanh chóng hội tụ về mức chuẩn 95%. SB (màu vàng) luôn ở mức 100% vì ước lượng phương sai quá bảo thủ (lớn quá mức cần thiết).
+    2. Về Độ rộng (Width): KTC của SB rộng gấp 3 đến 7.5 lần so với DML4SSI.
+    Ý nghĩa thực tiễn: Khả năng thu hẹp KTC giúp tiết kiệm 3 - 7.5 lần cỡ mẫu và thời gian chạy thử nghiệm thực tế cho doanh nghiệp.
   </aside>
 </section>
 
@@ -1048,42 +1152,17 @@
   <div class="section-banner">KẾT THÚC BÀI THUYẾT TRÌNH</div>
   <h2>Hỏi &amp; Đáp (Q&amp;A)</h2>
   
-  <div class="two-col" style="margin-top: 0.6em; gap: 24px;">
+  <div class="two-col" style="margin-top: 0.6em; gap: 24px; align-items: center; grid-template-columns: 1.1fr 1.9fr;">
     <!-- Cột trái: Lời cảm ơn -->
-    <div class="platform-card" style="padding: 20px 20px; text-align: center; background: var(--blue-light); border-left: 5px solid var(--blue-mid); align-self: stretch; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px;">
-      <div style="font-size: 3.5em; line-height: 1; margin: 0;">🙏</div>
-      <h3 style="margin: 0; color: var(--blue-dark); font-size: 1.45em; font-weight: 700; text-align: center;">Thanks for watching!</h3>
+    <div class="platform-card" style="padding: 24px 16px; text-align: center; background: linear-gradient(135deg, var(--blue-light), #eff6ff); border: 1.5px solid var(--blue-mid); border-left: 6px solid var(--blue-mid); border-radius: 12px; align-self: stretch; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(30, 41, 59, 0.05);">
+      <div style="font-size: 3.2em; line-height: 1; margin: 0; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));">🙏</div>
+      <h3 style="margin: 0; color: var(--blue-dark); font-size: 1.1em; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">Xin chân thành cảm ơn!</h3>
+      <p style="margin: 0; font-size: 0.55em; color: var(--blue-mid); font-weight: 600;">Hỏi &amp; Đáp (Q&amp;A)</p>
     </div>
     
-    <!-- Cột phải: Thông tin Nhóm thực hiện -->
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="font-size: 0.58em; font-weight: 700; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">
-        Nhóm thực hiện — Nhóm 10
-      </div>
-      
-      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
-        <span style="font-size: 1.2em;">👤</span>
-        <div>
-          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Lê Duy Anh</div>
-          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127012</div>
-        </div>
-      </div>
-      
-      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
-        <span style="font-size: 1.2em;">👤</span>
-        <div>
-          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Huỳnh Cao Tuấn Kiệt</div>
-          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127219</div>
-        </div>
-      </div>
-      
-      <div class="platform-card" style="padding: 10px 12px; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--gray-light); border: 1.5px solid #cbd5e1;">
-        <span style="font-size: 1.2em;">👤</span>
-        <div>
-          <div style="font-size: 0.6em; font-weight: 700; color: var(--blue-dark);">Võ Thành Nghĩa</div>
-          <div style="font-size: 0.52em; color: #64748b;">MSSV: 22127295</div>
-        </div>
-      </div>
+    <!-- Cột phải: Ảnh nhóm -->
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <img src="assets/intro.png" alt="Nhóm thực hiện" style="max-height: 410px; width: 100%; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);" />
     </div>
   </div>
 
@@ -1107,6 +1186,7 @@
     <li>Định nghĩa Estimand (ADE / GATE) dạng tab tương tác</li>
     <li>Chiến lược chứng minh (Proof Strategy)</li>
     <li>Bảng ký hiệu · Định vị trong nghiên cứu liên quan</li>
+    <li>Thiết lập mô phỏng cho ADE &amp; GATE (2 slide)</li>
   </ul>
   <aside class="notes">
     Các slide sau là phần chi tiết &amp; dự phòng, dùng khi cần đào sâu hoặc trả lời Q&amp;A. Luồng chính của bài thuyết trình kết thúc ở Slide 18.
@@ -1456,6 +1536,71 @@
   </aside>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════
+     PHỤ LỤC A11 — THIẾT LẬP MÔ PHỎNG CHO ADE (SECTION 4)
+═══════════════════════════════════════════════════════ -->
+<section>
+  <p class="backup-label">Phụ lục · Thiết lập mô phỏng</p>
+  <h2>Thiết lập mô phỏng cho ADE (Section 4)</h2>
+  
+  <div class="platform-card" style="padding: 18px 24px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 900px; margin: 0 auto;">
+    <ul style="margin: 0; padding-left: 20px; font-size: 0.65em; line-height: 1.45; color: var(--gray-text);">
+      <li style="margin-bottom: 6px;"><strong>Thông số mẫu:</strong> Cỡ mẫu mỗi lần chạy \(T = 1,000\), số lượng hiệp biến (covariates) \(d_X = 10\).</li>
+      <li style="margin-bottom: 6px;"><strong>Các hiệp biến:</strong> \(X_{t,i} \sim \mathcal{N}(1, 1)\) i.i.d. cho mỗi thành phần \(i = 1, \dots, d_X\).</li>
+      <li style="margin-bottom: 6px;"><strong>Chính sách đối xử (Propensity Score):</strong> \(D_t \sim \text{Ber}(m^*(X_t))\) với \(m^*(X_t) = \min\{\max\{0.1, X_{t,1}\}, 0.9\}\) (sử dụng cắt tỉa propensity score với \(\zeta = 0.1\)).</li>
+      <li style="margin-bottom: 6px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
+        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+          \[ Y_t(D_t, H_t) = \sin(2 \pi X_{t,1}) + 2D_t + 2H_t D_t - 1 + \tilde{Y}_t \]
+        </div>
+        trong đó nhiễu kết quả \(\tilde{Y}_t \sim \mathcal{N}(0, 0.1)\) i.i.d.
+      </li>
+      <li style="margin-bottom: 6px;"><strong>Tiến hóa của trạng thái chung (Shared-State AR(1)):</strong>
+        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+          \[ H_t(W_{t-1}) = 0.75(H_{t-1} - 1) + 1 + \tilde{H}_t \]
+        </div>
+        trong đó nhiễu trạng thái \(\tilde{H}_t \sim \mathcal{N}(0, 1)\) i.i.d.
+      </li>
+      <li><strong>Số lượt mô phỏng (Replications):</strong> Chạy 50,000 lần mô phỏng cho biểu đồ phân phối điểm (Hình 2) và 1,000 lần cho mỗi cỡ mẫu \(T\) (Hình 3).</li>
+    </ul>
+  </div>
+  
+  <aside class="notes">
+    Đây là cấu hình DGP (Data Generating Process) chi tiết cho thực nghiệm ADE. Hàm kết quả chứa cả thành phần phi tuyến của hiệp biến và tương tác chéo giữa đối xử với trạng thái chung H_t, tạo ra sự phụ thuộc theo chuỗi thời gian dưới dạng tự hồi quy AR(1).
+  </aside>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PHỤ LỤC A12 — THIẾT LẬP MÔ PHỎNG CHO GATE (SECTION 5)
+═══════════════════════════════════════════════════════ -->
+<section>
+  <p class="backup-label">Phụ lục · Thiết lập mô phỏng</p>
+  <h2>Thiết lập mô phỏng cho GATE (Section 5)</h2>
+  
+  <div class="platform-card" style="padding: 18px 24px; background: white; border: 1.5px solid #e2e8f0; border-left: 5px solid var(--blue-mid); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: left; max-width: 900px; margin: 0 auto;">
+    <ul style="margin: 0; padding-left: 20px; font-size: 0.65em; line-height: 1.45; color: var(--gray-text);">
+      <li style="margin-bottom: 6px;"><strong>Thông số mẫu:</strong> Số lượng hiệp biến \(d_X = 1\), hiệp biến \(X_t \sim \text{Unif}([0, 1])\).</li>
+      <li style="margin-bottom: 6px;"><strong>Thiết kế thử nghiệm (Switchback):</strong> Sử dụng cơ chế đổi trạng thái thử nghiệm luân phiên với chu kỳ chuyển đổi \(\ell = 2m = 10\) bước thời gian.</li>
+      <li style="margin-bottom: 6px;"><strong>Trạng thái chung (Shared-State m-dependent):</strong> Được định nghĩa là chuỗi lịch sử \(m = 5\) bước trước của đối xử và hiệp biến:
+        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+          \[ H_t = (X_{t-m:t-1},\, D_{t-m:t-1}) \]
+        </div>
+      </li>
+      <li style="margin-bottom: 6px;"><strong>Mô hình kết quả tiềm năng (Potential Outcome):</strong>
+        <div style="font-size: 0.92em; margin: 6px 0; text-align: center;">
+          \[ Y_t(D_t, H_t) = \sin(2 \pi X_{t,1}) + 2D_t + 2\sum_{i \in \lfloor m/6 \rfloor} e^{-H_{t, 6i}/3} - 1 + \tilde{Y}_t \]
+        </div>
+        trong đó nhiễu kết quả \(\tilde{Y}_t \sim \mathcal{N}(0, 0.1)\) i.i.d.
+      </li>
+      <li style="margin-bottom: 6px;"><strong>Chính sách phân bổ đối xử:</strong> Propensity score thực tế được gán tương tự mô phỏng ADE với xác suất cắt tỉa \(\zeta = 0.1\).</li>
+      <li><strong>Mô hình học máy phụ trợ:</strong> Ước lượng hàm phụ \(\hat{f}\) bằng Random Forest (mô hình mặc định), huấn luyện trên tập dữ liệu phụ trợ độc lập có kích thước \(T\).</li>
+    </ul>
+  </div>
+  
+  <aside class="notes">
+    Cấu hình GATE phục vụ cho thực nghiệm switchback với nhiễu m-phụ thuộc. Trạng thái chung H_t ghi nhận lịch sử 5 bước trước của cả đối xử và hiệp biến để phản ánh trễ lan tỏa (spillover) phi tuyến.
+  </aside>
+</section>
+
 </div><!-- .slides -->
 </div><!-- .reveal -->
 
@@ -1590,10 +1735,10 @@
     { label: 'HT ngây thơ',             mu: -0.34, sig: 0.17, color: 'rgb(239,68,68)'  },
     { label: 'DML i.i.d. ngây thơ',     mu:  0.42, sig: 0.14, color: 'rgb(220,38,38)'  },
     { label: 'SSAC (H_t là covariate)', mu: -0.28, sig: 0.11, color: 'rgb(245,158,11)' },
-    { label: 'Switchback HT chuẩn',     mu:  0.02, sig: 0.44, color: 'rgb(100,116,139)'},
+    { label: 'SB',                      mu:  0.02, sig: 0.44, color: 'rgb(100,116,139)'},
   ]);
 
-  const swLabels = ['DML4SSI', 'HT ngây thơ', 'DML i.i.d. ngây thơ', 'SSAC (H_t là covariate)', 'Switchback HT chuẩn'];
+  const swLabels = ['DML4SSI', 'HT ngây thơ', 'DML i.i.d. ngây thơ', 'SSAC (H_t là covariate)', 'SB'];
   hBar('chart-sw-width',
     swLabels,
     [1.0, 3.1, 2.7, 1.8, 5.2],
@@ -1632,7 +1777,15 @@
     }
   });
 
-  Reveal.on('ready',        e => triggerDag(e.currentSlide));
+  Reveal.on('ready',        e => {
+    triggerDag(e.currentSlide);
+    const controls = document.querySelector('.reveal .controls');
+    const slideNum = document.querySelector('.reveal .slide-number');
+    const rightBtn = document.querySelector('.reveal .controls .navigate-right');
+    if (controls && slideNum && rightBtn) {
+      controls.insertBefore(slideNum, rightBtn);
+    }
+  });
   Reveal.on('slidechanged', e => {
     triggerDag(e.currentSlide);
     const prev = e.previousSlide;
