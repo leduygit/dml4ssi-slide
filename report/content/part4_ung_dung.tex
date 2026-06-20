@@ -1,5 +1,8 @@
 \section{Ứng dụng mô hình thực tế}
 
+Lưu ý về mặt ký hiệu toán học: Trong khi Mục 4 giới thiệu phương pháp Double Machine Learning (DML) dựa trên mô hình tuyến tính từng phần (Partially Linear Model) để người đọc dễ tiếp cận thông qua trực quan của định lý Frisch-Waugh-Lovell, các ứng dụng thực tế dưới đây (ADE và GATE) sẽ mở rộng DML sang mô hình kết quả tiềm năng phi tham số tổng quát $f^*(D_t, X_t, H_t)$. Khi đó, tác động nhân quả không còn được biểu diễn qua một tham số tuyến tính duy nhất $\theta_0$ mà được ước lượng thông qua hiệu số kỳ vọng của các kết quả tiềm năng phi tuyến.
+
+
 \subsection{Ứng dụng 1: Tác động Trực tiếp Trung bình (Average Direct Effect --- ADE)}
 
 \subsubsection{Mô hình và đại lượng mục tiêu}
@@ -20,7 +23,7 @@ Mô hình kết quả trong bài toán ADE:
 
 \subsubsection{Bộ ước lượng ADE (AIPW có điều chỉnh \(H_t\))}
 
-Bộ ước lượng được xây dựng dưới dạng trung bình mẫu của hàm score \(\phi\):
+Bộ ước lượng được xây dựng dưới dạng trung bình mẫu của hàm score \(\phi\) \cite{hays2025double}:
 \[
     \hat{\psi}_{\text{ADE}} = \frac{1}{T} \sum_{t=1}^T \phi(W_t;\, \eta)
 \]
@@ -33,10 +36,10 @@ Hàm score \(\phi\) gồm hai thành phần:
 
 \begin{itemize}
     \item \textbf{Plug-in:} Dùng học máy dự đoán trực tiếp chênh lệch kết quả \(f(1,\cdot) - f(0,\cdot)\).
-    \item \textbf{Debiasing:} Dùng propensity score \(m(X_t)\) để đánh trọng số lại phần dư và sửa lỗi cho mô hình kết quả. Điểm khác biệt so với AIPW chuẩn: mô hình kết quả \(f\) \textbf{bắt buộc phải nhận \(H_t\) làm đầu vào} để kiểm soát confounding qua trạng thái chung.
+    \item \textbf{Debiasing:} Dùng propensity score \(m(X_t)\) để đánh trọng số lại phần dư và sửa lỗi cho mô hình kết quả. Điểm khác biệt so với AIPW chuẩn \cite{robins1994estimation}: mô hình kết quả \(f\) \textbf{bắt buộc phải nhận \(H_t\) làm đầu vào} để kiểm soát confounding qua trạng thái chung.
 \end{itemize}
 
-Dưới Assumption 4.1 (regularity: propensity bị chặn, outcome bounded) và Assumption 4.2 (tốc độ hội tụ: \(\hat{m}, \hat{f}\) hội tụ với tích tốc độ \(o_P(T^{-1/2})\)), \textbf{Theorem 4.3} kết luận:
+Dưới Assumption 5.1 (regularity: propensity bị chặn, outcome bounded) và Assumption 5.2 (tốc độ hội tụ: \(\hat{m}, \hat{f}\) hội tụ với tích tốc độ \(o_P(T^{-1/2})\)), \textbf{Theorem 5.3 \cite{hays2025double}} kết luận:
 \[
     \sqrt{T}\, \hat{\sigma}^{-1} \bigl(\hat{\psi}_{\text{ADE}} - \psi^*\bigr) \xrightarrow{d} \mathcal{N}(0,\, 1)
 \]
@@ -62,7 +65,7 @@ Mô hình kết quả trong Switchback với \(m\)-dependence:
 
 \subsubsection{Bộ ước lượng GATE (Regression Adjustment + Debiasing)}
 
-Hàm score cho GATE:
+Hàm score cho GATE \cite{hays2025double}:
 \begin{align}
     \phi(W_t;\eta) &= \underbrace{f(1,X_t,H_t(\mathbf{1})) - f(0,X_t,H_t(\mathbf{0}))}_{\text{Plug-in (Regression Adjustment)}} \nonumber \\
     &\quad + \underbrace{\Bigl(\frac{\mathbf{1}\{D_{t-m:t}=\mathbf{1}\}}{\pi^*(\cdot,1)} - \frac{\mathbf{1}\{D_{t-m:t}=\mathbf{0}\}}{\pi^*(\cdot,0)}\Bigr) \cdot (Y_t - f(D_t,X_t,H_t))}_{\text{Debiasing (chỉ kích hoạt ở cửa sổ thuần nhất)}}
@@ -73,4 +76,4 @@ Hàm score cho GATE:
     \item \textbf{Debiasing:} Chỉ kích hoạt khi chuỗi đối xử đạt trạng thái \textbf{thuần nhất} trong ít nhất \(m+1\) bước liên tiếp (cùng tất cả là đối xử hoặc kiểm soát). Điều này cho phép tận dụng toàn bộ dữ liệu thay vì bỏ đi dữ liệu ở giai đoạn chuyển giao.
 \end{itemize}
 
-Dưới Assumption 5.1 (xác suất chuỗi thuần nhất bị chặn: \(\pi^*((t{-}m):t, d) \geq \zeta > 0\)) và điều kiện tốc độ hội tụ tương tự, bộ ước lượng GATE cũng đạt chuẩn tiệm cận bình thường.
+Dưới Assumption 5.4 (xác suất chuỗi thuần nhất bị chặn: \(\pi^*((t{-}m):t, d) \geq \zeta > 0\)) và điều kiện tốc độ hội tụ tương tự, bộ ước lượng GATE cũng đạt chuẩn tiệm cận bình thường \cite{hays2025double}.

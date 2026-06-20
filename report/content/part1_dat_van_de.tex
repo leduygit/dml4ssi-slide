@@ -6,15 +6,15 @@ Suy luận nhân quả truyền thống dựa trên giả định \textbf{không
 
 \begin{itemize}
     \item \textbf{Hệ thống gợi ý:} Tương tác của một người dùng làm thay đổi nội dung gợi ý cho những người dùng sau (trạng thái chung: điểm phổ biến, embedding, lịch sử xem).
-    \item \textbf{Thị trường / Sàn thương mại điện tử:} Khuyến mãi cho một nhóm người dùng làm thay đổi nhu cầu, giá cả, thời gian chờ và hàng tồn kho (trạng thái chung: lượng tồn kho, giá hiện tại, tín hiệu cầu).
-    \item \textbf{Gọi xe công nghệ:} Đối xử với một số hành khách làm thay đổi lượng tài xế trống cho những người khác (trạng thái chung: số tài xế trống, giá linh động, thời gian chờ).
+    \item \textbf{Thị trường / Sàn thương mại điện tử:} Khuyến mãi cho một nhóm người dùng làm thay đổi nhu cầu, giá cả, thời gian chờ và hàng tồn kho (trạng thái chung: lượng tồn kho, giá hiện tại, tín hiệu cầu) \cite{johari2022experimental}.
+    \item \textbf{Gọi xe công nghệ:} Đối xử với một số hành khách làm thay đổi lượng tài xế trống cho những người khác (trạng thái chung: số tài xế trống, giá linh động, thời gian chờ) \cite{johari2022experimental}.
 \end{itemize}
 
 Ngay cả \textit{thí nghiệm ngẫu nhiên (randomized experiments)} cũng có thể bị chệch khi một đơn vị được đối xử làm thay đổi điều kiện thị trường chung, ảnh hưởng đến các đơn vị sau.
 
 \subsection{Khái niệm Nhiễu loạn Trạng thái chung (Shared-State Interference)}
 
-Bài báo đề xuất một dạng nhiễu loạn có cấu trúc, được gọi là \textbf{Shared-State Interference (SSI)}: nhiễu loạn không tùy tiện mà chảy qua một trạng thái chung quan sát được \(H_t\), thứ tóm gọn toàn bộ tác động lan tỏa (spillover) trong quá khứ.
+Bài báo đề xuất một dạng nhiễu loạn có cấu trúc, được gọi là \textbf{Shared-State Interference (SSI)} \cite{hays2025double}: nhiễu loạn không tùy tiện mà chảy qua một trạng thái chung quan sát được \(H_t\), thứ tóm gọn toàn bộ tác động lan tỏa (spillover) trong quá khứ.
 
 \(H_t\) có thể là lượng hàng tồn kho, giá cả, thời gian chờ, điểm phổ biến, hay đầu ra của thuật toán gợi ý --- bất kỳ cơ chế nào trung chuyển tác động lan tỏa giữa các đơn vị theo thời gian. Các đơn vị vừa \textit{bị ảnh hưởng} bởi trạng thái chung, vừa \textit{góp phần làm thay đổi} nó.
 
@@ -28,7 +28,7 @@ Quá khứ chỉ ảnh hưởng tương lai thông qua trạng thái chung \(H_t
 
 Các nghiên cứu trước đây về nhiễu loạn thường dựa vào mô hình \textbf{tham số cố định (parametric)}, hoặc giả định đặc thù cho từng bài toán cụ thể, dẫn đến dễ bị chệch khi mô hình hóa sai và khó mở rộng sang bối cảnh khác.
 
-Bài báo của Hays và Raghavan (2025) đóng góp ba điểm chính:
+Bài báo của Hays và Raghavan \cite{hays2025double} đóng góp ba điểm chính:
 
 \begin{enumerate}
     \item Đưa ra \textbf{khung lý thuyết tổng quát (General Framework)} cho SSI, không phụ thuộc vào giả định tham số cụ thể.
