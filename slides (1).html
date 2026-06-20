@@ -424,12 +424,86 @@
       border-radius: 999px;
       padding: 2px 8px;
       white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .legend-chip:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
     }
     .legend-swatch {
       width: 8px;
       height: 8px;
       border-radius: 999px;
       flex-shrink: 0;
+    }
+    .legend-tooltip {
+      position: absolute;
+      top: 135%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      background: rgba(30, 41, 59, 0.98);
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      line-height: 1.45;
+      white-space: normal;
+      width: 320px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s;
+      z-index: 999;
+      text-align: left;
+      font-weight: normal;
+    }
+    .legend-tooltip strong {
+      color: #38bdf8;
+    }
+    .legend-tooltip::before {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent transparent rgba(30, 41, 59, 0.98) transparent;
+    }
+    .legend-chip:hover .legend-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    /* Prevents left side overflow for first chip */
+    .legend-chip:first-child .legend-tooltip {
+      left: 0;
+      transform: translateX(0) translateY(-8px);
+    }
+    .legend-chip:first-child:hover .legend-tooltip {
+      transform: translateX(0) translateY(0);
+    }
+    .legend-chip:first-child .legend-tooltip::before {
+      left: 24px;
+      transform: none;
+    }
+    /* Prevents right side overflow for last chip */
+    .legend-chip:last-child .legend-tooltip {
+      left: auto;
+      right: 0;
+      transform: translateX(0) translateY(-8px);
+    }
+    .legend-chip:last-child:hover .legend-tooltip {
+      transform: translateX(0) translateY(0);
+    }
+    .legend-chip:last-child .legend-tooltip::before {
+      left: auto;
+      right: 24px;
+      transform: none;
     }
 
     /* ── Switchback timeline (Slide 16) ── */
@@ -1359,11 +1433,47 @@
   </p>
   
   <div class="legend-strip" style="justify-content: center; margin-bottom: 12px;">
-    <span class="legend-chip"><span class="legend-swatch" style="background:#e31a1c"></span>DML4SSI</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#4dae49"></span>Plug-in</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#377db8"></span>HT</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#974ea2"></span>Naive DML</span>
-    <span class="legend-chip"><span class="legend-swatch" style="background:#ff7e00"></span>SSAC</span>
+    <span class="legend-chip">
+      <span class="legend-swatch" style="background:#e31a1c"></span>
+      DML4SSI
+      <span class="legend-tooltip">
+        <strong>Cơ chế:</strong> Điều chỉnh đồng thời tác động của "trạng thái chia sẻ" (shared state) thông qua mô hình học máy mềm dẻo.<br>
+        <strong>Điểm cộng:</strong> Tính toán chính xác các hiệp biến tự tương quan (covariances) theo chuỗi thời gian, giúp ước lượng không chệch và đảm bảo khoảng tin cậy hội tụ chuẩn về 95%.
+      </span>
+    </span>
+    <span class="legend-chip">
+      <span class="legend-swatch" style="background:#4dae49"></span>
+      Plug-in
+      <span class="legend-tooltip">
+        Sử dụng mô hình học máy (như Random Forest) để dự đoán trực tiếp kết quả.<br>
+        <strong>Nhược điểm:</strong> Tốc độ hội tụ chậm hơn tốc độ tham số chuẩn (\(\sqrt{T}\)) và bị chệch lớn do thiếu cơ chế hiệu chỉnh sai số mẫu nhỏ (debiasing term).
+      </span>
+    </span>
+    <span class="legend-chip">
+      <span class="legend-swatch" style="background:#377db8"></span>
+      HT
+      <span class="legend-tooltip">
+        Ước lượng dựa trên hiệu số trung bình mẫu thông thường.<br>
+        <strong>Nhược điểm:</strong> Hoàn toàn bỏ qua sự tồn tại của trạng thái chia sẻ (shared state), dẫn đến kết quả bị chệch nghiêm trọng và không nhất quán trong mẫu hữu hạn.
+      </span>
+    </span>
+    <span class="legend-chip">
+      <span class="legend-swatch" style="background:#974ea2"></span>
+      Naive DML
+      <span class="legend-tooltip">
+        Áp dụng mô hình DML (AIPW) truyền thống.<br>
+        <strong>Nhược điểm:</strong> Giả định ngây thơ rằng dữ liệu độc lập và phân phối đồng nhất (iid), bỏ qua hoàn toàn biến trạng thái chia sẻ trong mô hình kết quả. Hệ quả là ước lượng phương sai và hiệu ứng đều bị chệch.
+      </span>
+    </span>
+    <span class="legend-chip">
+      <span class="legend-swatch" style="background:#ff7e00"></span>
+      SSAC
+      <span class="legend-tooltip">
+        Coi "trạng thái chia sẻ" như một biến hiệp biến (covariate) độc lập thông thường.<br>
+        <strong>Đặc điểm:</strong> Về mặt cơ học, mô hình ước lượng hiệu ứng (treatment effect) giống hệt DML4SSI.<br>
+        <strong>Điểm yếu:</strong> Bộ ước lượng phương sai của bỏ qua sự tự tương quan giữa các quan sát theo thời gian (coi dữ liệu là iid). Điều này làm đánh giá thấp phương sai thực tế, khiến khoảng tin cậy bị quá hẹp và độ bao phủ kém xa mức 95% mong muốn.
+      </span>
+    </span>
   </div>
 
   <div class="paper-figure-row">
