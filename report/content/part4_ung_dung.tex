@@ -1,0 +1,76 @@
+\section{Ứng dụng mô hình thực tế}
+
+\subsection{Ứng dụng 1: Tác động Trực tiếp Trung bình (Average Direct Effect --- ADE)}
+
+\subsubsection{Mô hình và đại lượng mục tiêu}
+
+\textbf{Bối cảnh:} Dữ liệu quan sát (observational data). Mục tiêu là cô lập tác động khi lật đối xử của \textit{một} đơn vị, tránh sai lệch do tương tác chéo (SUTVA vi phạm), trong khi giữ nguyên phân phối đối xử của các đơn vị khác.
+
+Mô hình kết quả trong bài toán ADE:
+\[
+    Y_t = f^*(D_t, X_t, H_t) + \tilde{Y}_t, \qquad \mathbb{E}[\tilde{Y}_t \mid D_t, X_t, H_t] = 0
+\]
+
+\textbf{Đại lượng mục tiêu (ADE):}
+\[
+    \psi^* = \frac{1}{T}\sum_{t=1}^T \mathbb{E}\bigl[Y_t(1, H_t) - Y_t(0, H_t)\bigr]
+\]
+
+Đây là tác động trực tiếp trung bình khi thay đổi đối xử của một đơn vị từ 0 sang 1, giữ nguyên trạng thái chung \(H_t\) theo tiến trình tiến hóa tự nhiên của hệ thống. Kỳ vọng \(\mathbb{E}\) lấy trung bình theo phân phối \(W_{1:T}\), tức đã được gạt bỏ (marginalized) theo các giá trị thực của \(H_t\).
+
+\subsubsection{Bộ ước lượng ADE (AIPW có điều chỉnh \(H_t\))}
+
+Bộ ước lượng được xây dựng dưới dạng trung bình mẫu của hàm score \(\phi\):
+\[
+    \hat{\psi}_{\text{ADE}} = \frac{1}{T} \sum_{t=1}^T \phi(W_t;\, \eta)
+\]
+
+Hàm score \(\phi\) gồm hai thành phần:
+\begin{align}
+    \phi(W_t;\eta) &= \underbrace{\left[ f(1,X_t,H_t) - f(0,X_t,H_t) \right]}_{\text{Plug-in: dự đoán chênh lệch kết quả}} \nonumber \\
+    &\quad + \underbrace{\left[ \left(\frac{D_t}{m(X_t)} - \frac{1-D_t}{1-m(X_t)}\right) \bigl(Y_t - f(D_t,X_t,H_t)\bigr) \right]}_{\text{Debiasing: sửa sai bằng propensity score}}
+\end{align}
+
+\begin{itemize}
+    \item \textbf{Plug-in:} Dùng học máy dự đoán trực tiếp chênh lệch kết quả \(f(1,\cdot) - f(0,\cdot)\).
+    \item \textbf{Debiasing:} Dùng propensity score \(m(X_t)\) để đánh trọng số lại phần dư và sửa lỗi cho mô hình kết quả. Điểm khác biệt so với AIPW chuẩn: mô hình kết quả \(f\) \textbf{bắt buộc phải nhận \(H_t\) làm đầu vào} để kiểm soát confounding qua trạng thái chung.
+\end{itemize}
+
+Dưới Assumption 4.1 (regularity: propensity bị chặn, outcome bounded) và Assumption 4.2 (tốc độ hội tụ: \(\hat{m}, \hat{f}\) hội tụ với tích tốc độ \(o_P(T^{-1/2})\)), \textbf{Theorem 4.3} kết luận:
+\[
+    \sqrt{T}\, \hat{\sigma}^{-1} \bigl(\hat{\psi}_{\text{ADE}} - \psi^*\bigr) \xrightarrow{d} \mathcal{N}(0,\, 1)
+\]
+
+\subsection{Ứng dụng 2: Tác động Toàn cục Trung bình (GATE) trong Switchback Experiments}
+
+\subsubsection{Mô hình và đại lượng mục tiêu}
+
+\textbf{Bối cảnh:} Thử nghiệm Switchback --- người thực hiện thí nghiệm kiểm soát toàn bộ \(D_{1:T}\) theo các khối thời gian kế tiếp (bật/tắt). Mục tiêu là so sánh khi \textit{tất cả} đơn vị được đối xử so với khi \textit{tất cả} bị kiểm soát, bao gồm cả tác động lan tỏa.
+
+Mô hình kết quả trong Switchback với \(m\)-dependence:
+\begin{align}
+    Y_t(D_t, H_t) &= f^*(D_t, X_t, H_t) + \tilde{Y}_t \\
+    H_t(D_{(t-m):(t-1)}) &= \operatorname{vec}(D_{(t-m):(t-1)},\, X_{(t-m):(t-1)})
+\end{align}
+
+\textbf{Đại lượng mục tiêu (GATE):}
+\[
+    \psi^* = \frac{1}{T}\sum_{t=1}^T \mathbb{E}\bigl[Y_t(1, H_t(\mathbf{1})) - Y_t(0, H_t(\mathbf{0}))\bigr]
+\]
+
+Đây là tác động toàn hệ thống (so sánh hai trạng thái ổn định: toàn treatment vs.\ toàn control), bao gồm cả hiệu ứng lan tỏa qua trạng thái chung.
+
+\subsubsection{Bộ ước lượng GATE (Regression Adjustment + Debiasing)}
+
+Hàm score cho GATE:
+\begin{align}
+    \phi(W_t;\eta) &= \underbrace{f(1,X_t,H_t(\mathbf{1})) - f(0,X_t,H_t(\mathbf{0}))}_{\text{Plug-in (Regression Adjustment)}} \nonumber \\
+    &\quad + \underbrace{\Bigl(\frac{\mathbf{1}\{D_{t-m:t}=\mathbf{1}\}}{\pi^*(\cdot,1)} - \frac{\mathbf{1}\{D_{t-m:t}=\mathbf{0}\}}{\pi^*(\cdot,0)}\Bigr) \cdot (Y_t - f(D_t,X_t,H_t))}_{\text{Debiasing (chỉ kích hoạt ở cửa sổ thuần nhất)}}
+\end{align}
+
+\begin{itemize}
+    \item \textbf{Plug-in (Regression Adjustment):} Dùng học máy dự đoán kết quả tiềm năng, hoạt động ở \textit{mọi} bước thời gian --- đây là cơ chế giúp \textbf{giảm đáng kể phương sai}.
+    \item \textbf{Debiasing:} Chỉ kích hoạt khi chuỗi đối xử đạt trạng thái \textbf{thuần nhất} trong ít nhất \(m+1\) bước liên tiếp (cùng tất cả là đối xử hoặc kiểm soát). Điều này cho phép tận dụng toàn bộ dữ liệu thay vì bỏ đi dữ liệu ở giai đoạn chuyển giao.
+\end{itemize}
+
+Dưới Assumption 5.1 (xác suất chuỗi thuần nhất bị chặn: \(\pi^*((t{-}m):t, d) \geq \zeta > 0\)) và điều kiện tốc độ hội tụ tương tự, bộ ước lượng GATE cũng đạt chuẩn tiệm cận bình thường.

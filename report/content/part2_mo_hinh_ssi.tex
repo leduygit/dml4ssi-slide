@@ -1,0 +1,91 @@
+\section{Mô hình hóa Shared-State Interference}
+
+\subsection{Thiết lập mô hình toán học (Setting \& Notation)}
+
+Xét một chuỗi các đơn vị được lập chỉ số \(t = 1, 2, \dots, T\). Tại mỗi bước thời gian \(t\), ta quan sát bộ dữ liệu:
+\[
+    W_t = \{X_t,\, D_t,\, H_t,\, Y_t\}
+\]
+
+Trong đó:
+\begin{itemize}
+    \item \(X_t\): \textbf{biến nền cảnh (covariates)} độc lập đồng phân phối (i.i.d.) từ không gian mẫu \(\mathbb{R}^{p_X}\) --- ví dụ vị trí, lịch sử xem, thiết bị.
+    \item \(D_t \in \{0, 1\}\): \textbf{biến đối xử nhị phân (binary treatment)}, độc lập với dữ liệu quá khứ nhưng có thể phụ thuộc vào \(X_t\).
+    \item \(H_t \in \mathbb{R}^{p_H}\): \textbf{trạng thái chung (shared state)} quan sát được --- biến cốt lõi của bài báo, tiến hóa theo thời gian theo dạng chuỗi Markov.
+    \item \(Y_t(D_t, H_t)\): \textbf{kết quả tiềm năng (potential outcome)}, phụ thuộc vào \textit{hai} đối số: đối xử của chính đơn vị và trạng thái chung.
+\end{itemize}
+
+Khác với SUTVA (kết quả chỉ phụ thuộc \(D_t\)), ở đây \(Y_t\) bị đồng quyết định bởi cả \(D_t\) lẫn trạng thái chung \(H_t\). Tồn tại vòng lặp phản hồi hai chiều: \(H_t \to Y_t\), và ngược lại \((D_t, X_t) \to H_{t+1}\). Cấu trúc phụ thuộc này được minh họa trong Hình~\ref{fig:dag-ssi}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance = 1.4cm and 1.8cm,
+    every node/.style = {font=\small},
+    var/.style = {draw, rectangle, rounded corners=4pt, minimum width=1.1cm,
+                  minimum height=0.75cm, fill=gray!10, thick},
+    shared/.style = {draw, ellipse, minimum width=2.2cm, minimum height=1.2cm,
+                     fill=blue!15, draw=blue!70, thick},
+    outcome/.style = {draw, circle, minimum size=1.1cm,
+                      fill=green!20, draw=green!60!black, thick},
+    groupbox/.style = {draw, dashed, rounded corners=6pt, gray, thick, inner sep=8pt},
+    arr/.style  = {->, >=stealth, thick, blue!70},
+    garr/.style = {->, >=stealth, thick, gray!60},
+]
+% W_{t-1} group
+\node[var] (Xt1) {$X_{t-1}$};
+\node[var, below=0.35cm of Xt1] (Dt1) {$D_{t-1}$};
+\node[var, below=0.35cm of Dt1] (Yt1) {$Y_{t-1}$};
+\node[var, below=0.35cm of Yt1, fill=blue!10, draw=blue!50] (Ht1) {$H_{t-1}$};
+\node[groupbox, fit=(Xt1)(Ht1),
+      label={[gray,font=\scriptsize]above:$W_{t-1}$}] (Wt1) {};
+
+% H_t shared state
+\node[shared, right=2.6cm of Dt1] (Ht) {};
+\node[font=\footnotesize\itshape, blue!80, above] at (Ht.center) {trạng thái chung};
+\node[font=\bfseries, blue!90!black, below] at (Ht.center) {$H_t$};
+
+% X_t, D_t
+\node[var, above right=0.5cm and 2.0cm of Ht] (Xt) {$X_t$};
+\node[var, below right=0.5cm and 2.0cm of Ht] (Dt) {$D_t$};
+
+% Y_t
+\node[outcome] at ($(Xt)!0.5!(Dt) + (1.8cm,0)$) (Yt) {$Y_t$};
+
+% Arrows
+\draw[arr]  (Wt1.east) -- (Ht);
+\draw[arr]  (Ht) -- (Yt);
+\draw[garr] (Xt)  -- (Yt);
+\draw[garr] (Dt)  -- (Yt);
+\end{tikzpicture}
+\caption{Cấu trúc phụ thuộc của Shared-State Interference. Quá khứ \(W_{t-1}\) ảnh hưởng tương lai chỉ thông qua trạng thái chung \(H_t\). Các đơn vị không tương tác trực tiếp mà gián tiếp qua \(H_t\).}
+\label{fig:dag-ssi}
+\end{figure}
+
+\subsection{Tính chất Markov của Trạng thái chung}
+
+Giả định cốt lõi của bài báo là trạng thái chung \(H_t\) thỏa mãn tính chất Markov:
+
+\begin{equation}
+    P(H_t \in A \mid W_{1:t-1}) = P(H_t \in A \mid W_{t-1}) \tag{2.1}
+\end{equation}
+
+Khi đã biết quan sát ngay trước đó \(W_{t-1}\), trạng thái chung kế tiếp \(H_t\) độc lập điều kiện với toàn bộ lịch sử xa hơn --- ``quá khứ xa đã được gói gọn trong hiện tại''.
+
+Do \(X_t\) i.i.d. và \(D_t\) không phụ thuộc quá khứ, toàn chuỗi \(\{W_t\}\) tạo thành một \textbf{chuỗi Markov thuần nhất (homogeneous Markov chain)} với kernel chuyển trạng thái \(K_H\) cố định --- nền móng để áp dụng các định lý giới hạn trong phần sau.
+
+\subsection{Các điều kiện của Chuỗi Markov (Assumption 2.1)}
+
+Hệ thống SSI phải thỏa mãn \textbf{một trong hai} cấu trúc phụ thuộc sau:
+
+\paragraph{Điều kiện (a) --- Hội tụ hình học (Geometric Ergodicity):}
+Chuỗi Markov hội tụ về một phân phối dừng duy nhất với tốc độ hàm mũ. Nói nôm na: ``nhiễu phai nhạt nhanh theo hàm mũ'' --- tương quan giữa các quan sát cách xa nhau giảm về 0 đủ nhanh để suy luận tiệm cận có hiệu lực. Điều kiện này phù hợp với bài toán dữ liệu quan sát (observational data).
+
+\paragraph{Điều kiện (b) --- Phụ thuộc hữu hạn (\(m\)-Dependence):}
+Các quan sát cách nhau xa hơn \(m\) bước thì hoàn toàn độc lập:
+\[
+    W_{1:t} \perp W_{t+m+1:T}
+\]
+Nói nôm na: ``nhiễu chỉ kéo dài tối đa \(m\) bước rồi biến mất''. Điều kiện này tự nhiên xuất hiện trong các thử nghiệm Switchback.
+
+Hai điều kiện này \textit{thay thế} giả định i.i.d.\ trong DML thông thường, cho phép một Định lý Giới hạn Trung tâm (CLT) vẫn đúng trên dữ liệu phụ thuộc. Tương ứng với hai điều kiện này, bài báo cũng đề xuất hai công thức ước lượng phương sai khác nhau.

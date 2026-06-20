@@ -1,0 +1,31 @@
+\section{Kết luận và Thảo luận}
+
+\subsection{Tổng kết đóng góp}
+
+Bài báo ``Double Machine Learning for Causal Inference under Shared-State Interference'' của Hays và Raghavan (MIT, 2025) đề xuất một khung lý thuyết và thực hành mới để suy luận nhân quả trong các hệ thống có nhiễu loạn trạng thái chung (SSI). Ba đóng góp chính gồm:
+
+\begin{enumerate}
+    \item \textbf{Mô hình hóa SSI tổng quát:} Định nghĩa chính thức khái niệm shared-state interference thông qua chuỗi Markov với trạng thái chung \(H_t\), bao phủ nhiều ứng dụng thực tế (thị trường, hệ thống gợi ý, gọi xe công nghệ).
+
+    \item \textbf{Mở rộng định lý DML:} Chứng minh định lý suy luận tiệm cận hợp lệ cho dữ liệu phụ thuộc theo chuỗi thời gian. Thay thế cross-fitting K-fold bằng auxiliary data (dưới geometric ergodicity) hoặc block cross-fitting với khoảng đệm (dưới \(m\)-dependence).
+
+    \item \textbf{Ứng dụng thực tiễn:} Cung cấp hai bộ ước lượng cụ thể (ADE và GATE), được kiểm chứng qua mô phỏng cho thấy DML4SSI vừa không chệch vừa đạt độ phủ khoảng tin cậy chuẩn 95\%, trong khi tất cả các phương pháp thay thế đều thất bại ít nhất một tiêu chí.
+\end{enumerate}
+
+\subsection{Hạn chế}
+
+\begin{itemize}
+    \item \textbf{Yêu cầu dữ liệu phụ trợ:} Giải pháp auxiliary data đòi hỏi có sẵn tập dữ liệu \(W_{\text{aux}}\) độc lập với tập suy luận --- điều này có thể không khả thi trong mọi bối cảnh.
+    \item \textbf{Cần biết \(m\):} Trong trường hợp \(m\)-dependence (switchback), cần biết hoặc ước lượng được khoảng thời gian \(m\) để \(H_t\) phai nhạt hoàn toàn.
+    \item \textbf{Chỉ xét đối xử nhị phân và kết quả thực:} Bài báo hiện giới hạn ở \(D_t \in \{0, 1\}\) và \(Y_t \in \mathbb{R}\).
+\end{itemize}
+
+\subsection{Hướng mở rộng}
+
+Các hướng nghiên cứu tiếp theo có thể gồm:
+\begin{itemize}
+    \item Mở rộng sang đối xử liên tục (continuous treatment).
+    \item Xét trường hợp trạng thái chung không quan sát được (latent shared state).
+    \item Phát triển phương pháp ước lượng \(m\) từ dữ liệu (đã được đề cập trong bài báo switchback).
+    \item Ứng dụng trong các thí nghiệm A/B test trực tuyến với dữ liệu lớn thực tế.
+\end{itemize}

@@ -1,0 +1,39 @@
+\section{Đặt vấn đề và Động lực}
+
+\subsection{Hiện tượng Nhiễu loạn (Interference) và SUTVA}
+
+Suy luận nhân quả truyền thống dựa trên giả định \textbf{không có nhiễu loạn giữa các đơn vị (Stable Unit Treatment Value Assumption --- SUTVA)}: kết quả của một đơn vị không bị ảnh hưởng bởi đối xử của đơn vị khác. Tuy nhiên, giả định này sụp đổ trong nhiều hệ thống thực tế:
+
+\begin{itemize}
+    \item \textbf{Hệ thống gợi ý:} Tương tác của một người dùng làm thay đổi nội dung gợi ý cho những người dùng sau (trạng thái chung: điểm phổ biến, embedding, lịch sử xem).
+    \item \textbf{Thị trường / Sàn thương mại điện tử:} Khuyến mãi cho một nhóm người dùng làm thay đổi nhu cầu, giá cả, thời gian chờ và hàng tồn kho (trạng thái chung: lượng tồn kho, giá hiện tại, tín hiệu cầu).
+    \item \textbf{Gọi xe công nghệ:} Đối xử với một số hành khách làm thay đổi lượng tài xế trống cho những người khác (trạng thái chung: số tài xế trống, giá linh động, thời gian chờ).
+\end{itemize}
+
+Ngay cả \textit{thí nghiệm ngẫu nhiên (randomized experiments)} cũng có thể bị chệch khi một đơn vị được đối xử làm thay đổi điều kiện thị trường chung, ảnh hưởng đến các đơn vị sau.
+
+\subsection{Khái niệm Nhiễu loạn Trạng thái chung (Shared-State Interference)}
+
+Bài báo đề xuất một dạng nhiễu loạn có cấu trúc, được gọi là \textbf{Shared-State Interference (SSI)}: nhiễu loạn không tùy tiện mà chảy qua một trạng thái chung quan sát được \(H_t\), thứ tóm gọn toàn bộ tác động lan tỏa (spillover) trong quá khứ.
+
+\(H_t\) có thể là lượng hàng tồn kho, giá cả, thời gian chờ, điểm phổ biến, hay đầu ra của thuật toán gợi ý --- bất kỳ cơ chế nào trung chuyển tác động lan tỏa giữa các đơn vị theo thời gian. Các đơn vị vừa \textit{bị ảnh hưởng} bởi trạng thái chung, vừa \textit{góp phần làm thay đổi} nó.
+
+Cấu trúc phụ thuộc của SSI được tóm tắt như sau:
+\[
+    W_{t-1} \;\longrightarrow\; H_t \;\longrightarrow\; Y_t
+\]
+Quá khứ chỉ ảnh hưởng tương lai thông qua trạng thái chung \(H_t\), không có mũi tên ngang nối trực tiếp giữa các đơn vị.
+
+\subsection{Hạn chế của nghiên cứu trước và Đóng góp của bài báo}
+
+Các nghiên cứu trước đây về nhiễu loạn thường dựa vào mô hình \textbf{tham số cố định (parametric)}, hoặc giả định đặc thù cho từng bài toán cụ thể, dẫn đến dễ bị chệch khi mô hình hóa sai và khó mở rộng sang bối cảnh khác.
+
+Bài báo của Hays và Raghavan (2025) đóng góp ba điểm chính:
+
+\begin{enumerate}
+    \item Đưa ra \textbf{khung lý thuyết tổng quát (General Framework)} cho SSI, không phụ thuộc vào giả định tham số cụ thể.
+    \item Mở rộng định lý \textbf{Double Machine Learning (DML) cho SSI} --- sử dụng các mô hình học máy linh hoạt, semiparametric, vẫn đảm bảo suy luận thống kê hợp lệ trên dữ liệu phụ thuộc.
+    \item Cung cấp \textbf{bộ ước lượng phương sai nhất quán (Consistent Variance Estimator)} để xây dựng khoảng tin cậy chính xác ngay cả khi các quan sát có tương quan theo thời gian.
+\end{enumerate}
+
+Điểm mấu chốt: kết hợp được tính linh hoạt của học máy với suy luận thống kê hợp lệ, ngay cả khi dữ liệu phụ thuộc theo chuỗi thời gian.
