@@ -1,15 +1,15 @@
-[0] Config.pm:328> INFO - This is Biber 2.21
-[0] Config.pm:331> INFO - Logfile is 'main.blg'
-[77] biber-MSWIN64:342> INFO - === 
-[108] Biber.pm:421> INFO - Reading 'main.bcf'
-[183] Biber.pm:999> INFO - Using all citekeys in bib section 0
-[191] Biber.pm:4487> INFO - Processing section 0
-[199] Biber.pm:4678> INFO - Looking for bibtex file 'ref/ref.bib' for section 0
-[245] bibtex.pm:1713> INFO - LaTeX decoding ...
-[262] bibtex.pm:1519> INFO - Found BibTeX data source 'ref/ref.bib'
-[305] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[0] Config.pm:308> INFO - This is Biber 2.20
+[0] Config.pm:311> INFO - Logfile is 'main.blg'
+[73] biber:340> INFO - === Mon Jun 22, 2026, 21:02:04
+[90] Biber.pm:420> INFO - Reading 'main.bcf'
+[180] Biber.pm:991> INFO - Using all citekeys in bib section 0
+[201] Biber.pm:4463> INFO - Processing section 0
+[222] Biber.pm:4654> INFO - Looking for bibtex file 'ref/ref.bib' for section 0
+[223] bibtex.pm:1713> INFO - LaTeX decoding ...
+[232] bibtex.pm:1519> INFO - Found BibTeX data source 'ref/ref.bib'
+[304] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
 [305] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[305] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[305] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[311] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[315] bbl.pm:779> INFO - Output to main.bbl
+[305] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[305] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[321] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[330] bbl.pm:779> INFO - Output to main.bbl

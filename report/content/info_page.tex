@@ -1,2 +1,29 @@
 \section{Thông tin chung}
 
+\subsection{Thông tin bài báo}
+
+\begin{itemize}
+    \item Tên bài báo: Double Machine Learning for Causal Inference under Shared-State Interference
+    \item Tác giả: Chris Hays \& Manish Raghavan
+    \item Đơn vị: Massachusetts Institute of Technology (MIT)
+    \item Hội nghị: International Conference on Machine Learning (ICML 2025)
+    \item Mã arXiv: \href{https://arxiv.org/abs/2504.08836}{arXiv:2504.08836v1}
+\end{itemize}
+
+\subsection{Tóm tắt nội dung}
+
+Bài báo giải quyết bài toán suy luận nhân quả (causal inference) trong các hệ thống mà giả định không nhiễu loạn (SUTVA) bị vi phạm. Cụ thể, nhiều nền tảng thực tế như hệ thống gợi ý, sàn thương mại điện tử, ứng dụng gọi xe có đặc điểm: hành động của một người dùng tác động lên một trạng thái chung (shared state) và từ đó ảnh hưởng đến kết quả của những người dùng khác. Dạng nhiễu loạn có cấu trúc này được tác giả đặt tên là Shared-State Interference (SSI).
+
+Thách thức nằm ở chỗ trạng thái chung $H_t$ vừa phụ thuộc vào lịch sử đối xử, vừa trực tiếp chi phối kết quả, tạo ra mối quan hệ phụ thuộc phức tạp theo chuỗi thời gian mà các phương pháp DML truyền thống (vốn giả định dữ liệu i.i.d.) không thể xử lý đúng đắn.
+
+Đóng góp cốt lõi của bài báo bao gồm:
+
+\begin{enumerate}
+    \item Khung lý thuyết tổng quát cho SSI: Hình thức hóa mô hình SSI với chuỗi quan sát $\{(X_t, D_t, H_t, Y_t)\}_{t=1}^{T}$, trong đó $H_t$ đóng vai trò trung gian (mediator) cho mọi tác động lan tỏa.
+
+    \item Mở rộng DML sang dữ liệu phụ thuộc: Đề xuất bộ ước lượng semiparametric, kết hợp học máy linh hoạt (nuisance estimation) với phép chiếu Frisch-Waugh-Lovell, đồng thời chứng minh tính chuẩn tiệm cận (asymptotic normality) ngay cả khi các quan sát tương quan theo thời gian.
+
+    \item Bộ ước lượng phương sai nhất quán: Xây dựng ước lượng phương sai (HAC-style) từ mixing conditions phù hợp với chuỗi SSI, cho phép tạo khoảng tin cậy có độ phủ đúng trong thực tế.
+\end{enumerate}
+
+Kết quả mô phỏng cho thấy phương pháp DML4SSI đạt độ phủ khoảng tin cậy xấp xỉ 95\% và độ lệch gần bằng 0, trong khi các baseline ngây thơ (plug-in, HT, DML i.i.d.) đều bị chệch đáng kể.
